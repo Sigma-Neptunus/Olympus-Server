@@ -22,7 +22,7 @@ io.on('connection', function(socket){
 			}
 		}else if(username == 'mobile'){
 			if(searchUser('mobile', allClients) != -1){
-				socket.emit("updateuser", {connection : 'False', message : "Mobile already exist"});
+				socket.emit("updateuser", {connection : false, message : "Mobile already exist"});
 			}else{
 				allClients.push({'socket': socket, 'Usertype' : 'mobile'});
 				socket.join(room);
