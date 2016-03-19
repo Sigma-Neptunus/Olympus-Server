@@ -14,6 +14,24 @@
 	<script src="{% static 'js/bootstrap.min.js' %}"></script>
 	<script src="http://maps.googleapis.com/maps/api/js"></script>
 	<script src="https://cdn.socket.io/socket.io-1.4.5.js"></script>
+	<script>
+	var map;
+
+	function initialize() {
+	  var mapProp = {
+	    center:new google.maps.LatLng(37.4598889,126.9518048),
+	    zoom:16,
+	    mapTypeId:google.maps.MapTypeId.ROADMAP
+	  };
+	  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+	  var marker = new google.maps.Marker({
+	  	position:{lat:37.4598889, lng: 126.9518048},
+	  	map: map
+	  });
+	}
+	google.maps.event.addDomListener(window, 'load', initialize);
+	</script>
 
 	<script>
 		var socket = io.connect("http://147.46.242.59:8001");
@@ -50,26 +68,17 @@
 				$("#mobile_state").text("");
 			}
 
+			socket.on("From_mobile",function(data){
+				if(data.hasOwnProperty("current")){
+					var marker = new google.map.Marker({
+						position: {lat: data.current.latitude, lng: data.current.longitude},
+						map: map
+					});
+				}
+			});
+
 		});
 	</script>
-
-	<script>
-	function initialize() {
-	  var mapProp = {
-	    center:new google.maps.LatLng(37.4598889,126.9518048),
-	    zoom:16,
-	    mapTypeId:google.maps.MapTypeId.ROADMAP
-	  };
-	  var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
-	  var marker = new google.maps.Marker({
-	  	position:{lat:37.4598889, lng: 126.9518048},
-	  	map: map
-	  });
-	}
-	google.maps.event.addDomListener(window, 'load', initialize);
-	</script>
-
 <style>
 	body{
 		background: #000 url("/static/img/wallpaper.jpg") no-repeat;

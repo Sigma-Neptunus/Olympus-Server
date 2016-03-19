@@ -46,12 +46,10 @@ io.on('connection', function(socket){
 	});
 
 	socket.on("To_mobile", function(data){
-		console.log("Edison message :" + data);
 		socket.broadcast.to(room).emit("From_edison", data);
 	});
 
 	socket.on("To_edison", function(data){
-		console.log("Mobile message : " + data);
 		socket.broadcast.to(room).emit("From_mobile", data);
 	});
 })
